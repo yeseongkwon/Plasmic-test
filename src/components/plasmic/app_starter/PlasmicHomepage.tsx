@@ -36,6 +36,7 @@ import {
 } from "@plasmicapp/react-web";
 import PageLayout from "../../PageLayout"; // plasmic-import: PCGbfkFYZcD/component
 import { AntdButton } from "@plasmicpkgs/antd5/skinny/registerButton"; // plasmic-import: bx9Xzvf5_eu/codeComponent
+import { RichList } from "@plasmicpkgs/plasmic-rich-components"; // plasmic-import: Hh2OL1EveIF/codeComponent
 
 import "@plasmicapp/react-web/lib/plasmic.css";
 
@@ -63,6 +64,7 @@ export type PlasmicHomepage__OverridesType = {
   h1?: p.Flex<"h1">;
   svg?: p.Flex<"svg">;
   button?: p.Flex<typeof AntdButton>;
+  dataList?: p.Flex<typeof RichList>;
 };
 
 export interface DefaultHomepageProps {
@@ -176,6 +178,28 @@ function PlasmicHomepage__RenderFunc(props: {
                       {"Button"}
                     </div>
                   </AntdButton>
+                  <RichList
+                    data-plasmic-name={"dataList"}
+                    data-plasmic-override={overrides.dataList}
+                    bordered={true}
+                    className={classNames("__wab_instance", sty.dataList)}
+                    data={(() => {
+                      try {
+                        return undefined;
+                      } catch (e) {
+                        if (
+                          e instanceof TypeError ||
+                          e?.plasmicType === "PlasmicUndefinedDataError"
+                        ) {
+                          return undefined;
+                        }
+                        throw e;
+                      }
+                    })()}
+                    hideSearch={false}
+                    pagination={true}
+                    type={"grid" as const}
+                  />
                 </React.Fragment>
               )}
             </ph.DataCtxReader>
@@ -187,12 +211,13 @@ function PlasmicHomepage__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "pageLayout", "section", "h1", "svg", "button"],
-  pageLayout: ["pageLayout", "section", "h1", "svg", "button"],
+  root: ["root", "pageLayout", "section", "h1", "svg", "button", "dataList"],
+  pageLayout: ["pageLayout", "section", "h1", "svg", "button", "dataList"],
   section: ["section", "h1"],
   h1: ["h1"],
   svg: ["svg"],
-  button: ["button"]
+  button: ["button"],
+  dataList: ["dataList"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -204,6 +229,7 @@ type NodeDefaultElementType = {
   h1: "h1";
   svg: "svg";
   button: typeof AntdButton;
+  dataList: typeof RichList;
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -313,6 +339,7 @@ export const PlasmicHomepage = Object.assign(
     h1: makeNodeComponent("h1"),
     svg: makeNodeComponent("svg"),
     button: makeNodeComponent("button"),
+    dataList: makeNodeComponent("dataList"),
 
     // Metadata about props expected for PlasmicHomepage
     internalVariantProps: PlasmicHomepage__VariantProps,
